@@ -1,3 +1,10 @@
+/**
+ * @author Trevor Hartman
+ * @author Rachelle Iloff
+ * created 04/08/2023
+ * @since version 1.0
+ */
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -17,11 +24,13 @@ public class WeatherStation {
     private float pressure;
 
     public WeatherStation() {
-        displays = new ArrayList<Display>();
+        displays = new ArrayList<>();
         gson = new Gson();
         try {
             url = new URL("https://api.openweathermap.org/data/2.5/weather?q=Loleta,us&units=imperial&APPID=132cb2f1db987da116d403e616723290");
-        } catch (MalformedURLException m) {}
+        } catch (MalformedURLException m) {
+            throw new RuntimeException(m);
+        }
     }
 
     public void registerDisplay(Display d) {
@@ -32,15 +41,13 @@ public class WeatherStation {
         displays.remove(d);
     }
 
-    public void notifyDisplays() {
+    public void notifyDisplays () throws IOException {
         for(Display d : displays) {
             d.update();
         }
     }
 
-    public float getTemperature() {
-        return temperature;
-    }
+    public float getTemperature() {return temperature;}
 
     public float getHumidity() {
         return humidity;
